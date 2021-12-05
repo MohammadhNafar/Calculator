@@ -1,4 +1,5 @@
 class Calculator {
+    
     constructor(lastResultTxt , currentResultTxt)
     {
         this.lastResultTxt = lastResultTxt;
@@ -10,7 +11,7 @@ class Calculator {
 
         this.currentResult = '';
         this.lastResult = '';
-        this.operation = undefined;
+        this.operation = 2;
     }
     delete(){
 
@@ -18,6 +19,8 @@ class Calculator {
 
     appendNumber(number){
         this.currentResult = this.currentResult.toString() + number.toString();
+        console.log(this.operation);
+        console.log(this.currentResult);
 
     }
     chooseOperation(operation)
@@ -29,6 +32,7 @@ class Calculator {
     }
     updateDisplay()
     {
+        this.currentResultTxt.innerText = this.currentResult;
         
 
     }
@@ -49,17 +53,31 @@ const opButtons = document.querySelectorAll(`[data-operation`);
 const equalsButton = document.querySelector(`[data-equals]`);
 const deleteButton = document.querySelector(`[data-delete]`);
 const clearButton = document.querySelector(`[data-clear]`);
-const lastResultTxt = document.querySelector(`[last-result]`);
-const currentResultTxt = document.querySelector(`[current-result]`);
+const lastResultTxt = document.querySelector(`[data-last-result]`);
+const currentResultTxt = document.querySelector(`[data-current-result]`);
 
 const calculator = new Calculator(lastResultTxt ,
      currentResultTxt);
     
 numButtons.forEach(button => {
     button.addEventListener('click', () =>{
-        calculator.appendNumber(button.innerText)
+        console.log(button ,"clicked");
+        calculator.appendNumber(button.innerHTML)
         calculator.updateDisplay()
     })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
