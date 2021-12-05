@@ -11,10 +11,11 @@ class Calculator {
 
         this.currentResult = '';
         this.lastResult = '';
-        this.operation = 2;
+        this.operation = undefined;
     }
     delete(){
 
+        this.currentResult = this.currentResult.toString().slice(0, -1);
     }
 
     appendNumber(number){
@@ -66,10 +67,53 @@ class Calculator {
 
 
     }
+
+
+
+    displayNumber(number)
+    {
+        const stringNum = number.toString();
+        const integerDig = parseFloat(stringNum.split('.')[0])
+        const decimalDig = stringNum.split('.')[1]
+        let integerDisplay;
+        if (isNaN(integerDig))
+        {
+            integerDisplay = ''
+        } else {
+            integerDisplay = integerDig.toLocaleString('en',{
+                maximumFractionDigits: 0
+            })
+        }
+        if (decimalDig != null)
+        {
+            return `${integerDisplay}.${decimalDig}`
+        }
+        else
+        {
+            return integerDisplay
+        }
+        
+    }
+
+
+
+
+
     updateDisplay()
     {
-        this.currentResultTxt.innerText = this.currentResult;
-        this.lastResultTxt.innerText = this.lastResult;
+        this.currentResultTxt.innerText =
+         this.displayNumber( this.currentResult);
+        if (this.operation != null)
+        {
+
+            this.lastResultTxt.innerText =
+             `${this.displayNumber(this.lastResult)} ${this.operation}`
+
+        }
+        else {
+            this.lastResultTxt.innerText = ''
+
+        }
 
 
     }
@@ -125,7 +169,10 @@ clearButton.addEventListener ('click', button => {
     calculator.updateDisplay()
 })
 
-
+deleteButton.addEventListener ('click', button => {
+    calculator.delete();
+    calculator.updateDisplay()
+})
 
 
 
