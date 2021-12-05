@@ -18,22 +18,59 @@ class Calculator {
     }
 
     appendNumber(number){
+        if (number === '.' && this.currentResult.includes('.')) return
         this.currentResult = this.currentResult.toString() + number.toString();
-        console.log(this.operation);
-        console.log(this.currentResult);
+        
 
     }
     chooseOperation(operation)
     {
+        if (this.currentResult === '')return
+        if (this.lastResult !== ''){
+            this.compute()
+        }
+         this.operation = operation
+         this.lastResult = this.currentResult
+         this.currentResult = ''
 
     }
     compute(){
+        let comp;
+        const last = parseFloat(this.lastResult);
+        const current = parseFloat(this.currentResult);
+        if (isNaN(last) || isNaN(current))return;
+        switch(this.operation)
+        {
+            case '+':
+                comp = last + current
+                break;
+                case '-':
+                comp = last - current
+                break;
+                case '*':
+                comp = last * current
+                break;
+                case '÷':
+                comp = last / current
+                break;
+                default:
+                    return
+
+                
+        }
+        this.currentResult = comp;
+        this.operation = undefined;
+        this.lastResult = '';
+
+
+
 
     }
     updateDisplay()
     {
         this.currentResultTxt.innerText = this.currentResult;
-        
+        this.lastResultTxt.innerText = this.lastResult;
+
 
     }
 }
@@ -67,8 +104,26 @@ numButtons.forEach(button => {
     })
 })
 
+opButtons.forEach(button => {
+    button.addEventListener('click', () =>{
+        console.log(button ,"clicked");
+        calculator.chooseOperation(button.innerHTML)
+        calculator.updateDisplay()
+    })
+})
 
 
+
+equalsButton.addEventListener ('click', button => {
+    calculator.compute();
+    calculator.updateDisplay()
+})
+
+
+clearButton.addEventListener ('click', button => {
+    calculator.clear();
+    calculator.updateDisplay()
+})
 
 
 
